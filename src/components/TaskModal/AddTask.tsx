@@ -1,19 +1,18 @@
-import { useState } from 'react'
-import { useForm } from 'react-hook-form'
+import React, { useState } from 'react'
+import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { TaskSchema } from '../../schemas/task'
-import { Label } from '../Label'
 import { Button } from '../Button'
-import { Dialog, DialogActions } from './style'
-import Checkbox from '@mui/material/Checkbox'
-import { useAddTask } from '../../hooks/useAddTask'
 import {
-  Box,
   DialogContent,
   DialogTitle,
   FormControlLabel,
   TextField,
+  Checkbox,
 } from '@mui/material'
+import { Box } from '@mui/system'
+import { useAddTask } from '../../hooks/useAddTask'
+import { Dialog, DialogActions } from './style'
 
 type AddTaskModalProps = {
   open: boolean
@@ -22,7 +21,6 @@ type AddTaskModalProps = {
 
 function AddTaskModal({ open, handleClose }: AddTaskModalProps) {
   const [isCompleted, setIsCompleted] = useState(false)
-
   const {
     register,
     handleSubmit,
@@ -33,12 +31,12 @@ function AddTaskModal({ open, handleClose }: AddTaskModalProps) {
   })
   const { mutate } = useAddTask()
 
-  const onSubmit = (data: {
-    title: string
-    description: string
-    isCompleted: boolean
-  }) => {
-    mutate(data)
+  const onSubmit: SubmitHandler<FieldValues> = (data) => {
+    mutate({
+      title: data.title,
+      description: data.description,
+      isCompleted,
+    })
     handleClose()
     reset()
   }
@@ -46,6 +44,7 @@ function AddTaskModal({ open, handleClose }: AddTaskModalProps) {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setIsCompleted(event.target.checked)
   }
+
   const handleCancel = () => {
     handleClose()
     reset()
@@ -60,15 +59,6 @@ function AddTaskModal({ open, handleClose }: AddTaskModalProps) {
             width={'100%'}
             sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}
           >
-            <Label
-              sx={{
-                fontSize: '14px',
-                fontWeight: '400',
-              }}
-              htmlFor="title"
-            >
-              Novo título
-            </Label>
             <TextField
               InputProps={{
                 sx: { borderRadius: '8px' },
@@ -85,21 +75,12 @@ function AddTaskModal({ open, handleClose }: AddTaskModalProps) {
             width={'100%'}
             sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}
           >
-            <Label
-              sx={{
-                fontSize: '14px',
-                fontWeight: '400',
-              }}
-              htmlFor="title"
-            >
-              Nova descrição
-            </Label>
             <TextField
               InputProps={{
                 sx: { borderRadius: '8px' },
               }}
               className="TextField"
-              placeholder="Novo título"
+              placeholder="Nova descrição"
               variant="outlined"
               {...register('description')}
               error={!!errors.description}

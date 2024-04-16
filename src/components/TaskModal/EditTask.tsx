@@ -1,19 +1,18 @@
+import React, { useEffect, useState } from 'react'
+import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { TaskSchema } from '../../schemas/task'
+import { Button } from '../Button'
 import {
-  Box,
   DialogContent,
   DialogTitle,
   FormControlLabel,
   TextField,
+  Checkbox,
 } from '@mui/material'
-import { useEffect, useState } from 'react'
+import { Box } from '@mui/system'
 import { useEditTask } from '../../hooks/useEditTask'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { TaskSchema } from '../../schemas/task'
-import { Label } from '../Label'
-import { Button } from '../Button'
 import { Dialog, DialogActions } from './style'
-import Checkbox from '@mui/material/Checkbox'
 
 type EditTaskModalProps = {
   open: boolean
@@ -42,6 +41,7 @@ function EditTaskModal({
     reset,
   } = useForm({
     resolver: zodResolver(TaskSchema),
+    defaultValues: { title: initialTitle, description: initialDescription },
   })
   const { mutate } = useEditTask()
 
@@ -58,15 +58,9 @@ function EditTaskModal({
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setIsCompleted(event.target.checked)
-    alert(isCompleted)
   }
 
-  const onSubmit = (data: {
-    title: string
-    description: string
-    isCompleted: boolean
-    taskId: string
-  }) => {
+  const onSubmit: SubmitHandler<FieldValues> = (data) => {
     mutate({
       taskId,
       title: data.title,
@@ -87,15 +81,6 @@ function EditTaskModal({
             width={'100%'}
             sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}
           >
-            <Label
-              sx={{
-                fontSize: '14px',
-                fontWeight: '400',
-              }}
-              htmlFor="title"
-            >
-              Novo título
-            </Label>
             <TextField
               InputProps={{
                 sx: { borderRadius: '8px' },
@@ -114,21 +99,12 @@ function EditTaskModal({
             width={'100%'}
             sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}
           >
-            <Label
-              sx={{
-                fontSize: '14px',
-                fontWeight: '400',
-              }}
-              htmlFor="title"
-            >
-              Nova descrição
-            </Label>
             <TextField
               InputProps={{
                 sx: { borderRadius: '8px' },
               }}
               className="TextField"
-              placeholder="Novo título"
+              placeholder="Nova descrição"
               variant="outlined"
               {...register('description')}
               error={!!errors.description}

@@ -1,15 +1,8 @@
-import { User, Wrapper } from './style'
-import avatarImg from '../../assets/avatar.jpg'
-import { useState } from 'react'
+import { Suspense, lazy, useState } from 'react'
 import { useAuth } from '../../hooks/useAuth'
-import AddTaskModal from '../TaskModal/AddTask'
-import {
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-} from '@mui/material'
-import { Button } from '../Button'
+import { Wrapper } from './style'
+const CustomDialog = lazy(() => import('../CustomDialog'))
+const AddTaskModal = lazy(() => import('../TaskModal/AddTask'))
 
 type UserTypes = {
   username: string
@@ -19,10 +12,12 @@ type UserTypes = {
 type HeaderProps = {
   user: UserTypes
 }
+
+const avatarImg = '../../assets/avatar.jpg'
+
 export default function Header({ user }: HeaderProps) {
   const [open, setOpen] = useState(false)
   const [modalConfirmLogout, setModalConfirmLogout] = useState(false)
-
   const { signOut } = useAuth()
 
   const handleOpen = () => {
@@ -37,16 +32,13 @@ export default function Header({ user }: HeaderProps) {
     <Wrapper>
       <div className="logo">
         <h3>Gestor De Tarefas</h3>
-        <User>
-          <div className="avatar">
-            <img src={avatarImg} alt="" />
-          </div>
-
-          <div className="username">
-            <div>{user.username}</div>
-            <div>{user.email}</div>
-          </div>
-        </User>
+        <div className="avatar">
+          <img src={avatarImg} alt="" loading="lazy" />
+        </div>
+        <div className="username">
+          <div>{user.username}</div>
+          <div>{user.email}</div>
+        </div>
       </div>
       <div className="cta">
         <button className="add_task" onClick={handleOpen}>
@@ -56,22 +48,18 @@ export default function Header({ user }: HeaderProps) {
           Terminar Sessão
         </button>
       </div>
-      <AddTaskModal handleClose={handleClose} open={open} />
-      <Dialog
-        open={modalConfirmLogout}
-        onClose={() => setModalConfirmLogout(false)}
-      >
-        <DialogTitle>Terminar Sessão</DialogTitle>
-        <DialogContent>
-          Tem a certeza que pretende terminar esta sessão?
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setModalConfirmLogout(false)}>Não</Button>
-          <Button onClick={signOut} color="error">
-            Sim
-          </Button>
-        </DialogActions>
-      </Dialog>
+      <Suspense fallback={<div>Carregando...</div>}>
+        <AddTaskModal handleClose={handleClose} open={open} />
+      </Suspense>
+      <Suspense>
+        <CustomDialog
+          title={'Terminar Sessão'}
+          content={'Tem a certeza que pretende terminar esta sessão?'}
+          open={modalConfirmLogout}
+          onClose={() => setModalConfirmLogout(false)}
+          onConfirm={signOut}
+        />
+      </Suspense>
     </Wrapper>
   )
 }

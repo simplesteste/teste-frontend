@@ -1,11 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { API } from '../services/axios'
-
-type Task = {
-  title: string
-  description: string
-  isCompleted: boolean
-}
+import { Task } from '../types/tasks'
 
 export function useAddTask() {
   const queryClient = useQueryClient()
