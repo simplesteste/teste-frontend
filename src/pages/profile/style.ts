@@ -9,7 +9,7 @@ export const Wrapper = styled('div')`
   display: flex;
   flex-direction: column;
   gap: 24px;
-  @media (min-width: 1200px) {
+  @media (min-width: 1024px) {
     flex-direction: row;
   }
 `

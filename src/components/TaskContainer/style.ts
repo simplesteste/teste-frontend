@@ -10,7 +10,7 @@ export const Wrapper = styled('div')`
   @media (min-width: 500px) {
     grid-template-columns: repeat(2, 1fr);
   }
-  @media (min-width: 1024px) {
+  @media (min-width: 1200px) {
     grid-template-columns: repeat(3, 1fr);
   }
 `

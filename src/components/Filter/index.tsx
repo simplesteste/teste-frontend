@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react'
-import { Wrapper } from './style'
 import { Task } from '../../types/tasks'
+import { Wrapper } from './style'
 
 type FilterProps = {
   tasks: Task[]
@@ -54,7 +54,7 @@ export function Filter({ tasks, onFilterChange }: FilterProps) {
 
   const handleSearchAPI = () => {
     if (searchTerm.trim() !== '') {
-      onSearchAPI(searchTerm.trim())
+      alert(searchTerm.trim())
     }
   }
 
@@ -70,25 +70,34 @@ export function Filter({ tasks, onFilterChange }: FilterProps) {
         <div>
           <button
             className={`${filterType === '' ? 'isActive' : ''}`}
-            onClick={() => handleFilterChange('')}
+            onClick={() => {
+              setSearchTerm('')
+              handleFilterChange('')
+            }}
           >
             Tudo ({totalTasks})
           </button>
           <button
             className={`${filterType === 'completed' ? 'isActive' : ''}`}
-            onClick={() => handleFilterChange('completed')}
+            onClick={() => {
+              setSearchTerm('')
+              handleFilterChange('completed')
+            }}
           >
             Completas ({totalCompleted})
           </button>
           <button
             className={`${filterType === 'pending' ? 'isActive' : ''}`}
-            onClick={() => handleFilterChange('pending')}
+            onClick={() => {
+              setSearchTerm('')
+              handleFilterChange('pending')
+            }}
           >
             A fazer ({totalPending})
           </button>
         </div>
       </div>
-      <div>
+      <div className="search">
         <h4>Buscar</h4>
         <input
           type="search"
@@ -96,7 +105,7 @@ export function Filter({ tasks, onFilterChange }: FilterProps) {
           value={searchTerm}
           onChange={handleSearchChange}
         />
-        <button onClick={handleSearchAPI}>Buscar na API</button>
+        <button onClick={handleSearchAPI}>Buscar</button>
       </div>
     </Wrapper>
   )
