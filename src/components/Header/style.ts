@@ -1,12 +1,15 @@
 import { ButtonBase, styled } from '@mui/material'
 
 export const Wrapper = styled('header')`
-  background-color: #212529;
+  background-color: rgba(255 255 255 / 0.2);
   height: 112px;
-  color: #fff;
+  color: #000;
   margin: 0 auto;
   width: 100%;
-  margin-bottom: 80px;
+  position: fixed;
+  z-index: 10;
+  backdrop-filter: blur(20px);
+  border-bottom: 0.8px dashed #adb5bd;
   .center {
     width: 100%;
     max-width: 1200px;
@@ -26,7 +29,7 @@ export const Wrapper = styled('header')`
         gap: 4px;
         text-decoration: none;
         h1 {
-          color: #fff;
+          color: #000;
           font-size: 20px;
         }
       }
@@ -62,43 +65,6 @@ export const Wrapper = styled('header')`
 `
 
 export const User = styled('div')``
-
-export const PopoverUser = styled('div')`
-  background-color: #fff;
-  width: 200px;
-  display: flex;
-  padding: 8px 4px;
-  ul {
-    list-style: none;
-    width: 100%;
-    li {
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
-      gap: 4px;
-      padding: 8px;
-      border-radius: 8px;
-      width: 100%;
-      button {
-        background-color: transparent;
-        display: flex;
-        justify-content: flex-start;
-        align-items: center;
-        gap: 4px;
-        border: none;
-        width: 100%;
-        padding: 8px;
-        border-radius: 8px;
-        cursor: pointer;
-        transition: 0.4s ease;
-        border: 1.5px solid transparent;
-        &:hover {
-          border-color: #ced4da;
-        }
-      }
-    }
-  }
-`
 
 export const Button = styled(ButtonBase)`
   background-color: #4dabf7;

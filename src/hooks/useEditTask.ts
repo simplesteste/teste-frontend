@@ -3,8 +3,8 @@ import { API } from '../services/axios'
 
 type Task = {
   taskId: string
-  title: string
-  description: string
+  title?: string
+  description?: string
   isCompleted?: boolean
 }
 

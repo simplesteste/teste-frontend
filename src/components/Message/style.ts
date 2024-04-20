@@ -3,9 +3,9 @@ import { styled } from '@mui/material'
 export const Wrapper = styled('div')`
   font-size: 14px;
   font-weight: 500;
-  padding: 16px 0;
+  padding: 16px;
   color: #fff;
-  background-color: #fa5252;
+  background-color: #ff5555;
   width: 100%;
   display: flex;
   align-items: center;
