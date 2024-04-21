@@ -1,12 +1,12 @@
-import { MouseEvent, Suspense, lazy, useState } from 'react'
+import { MouseEvent, useState } from 'react'
 import { useAuth } from '../../hooks/useAuth'
 import { Button, Wrapper } from './style'
 import { AddCircleOutline, Logout, Person, Task } from '@mui/icons-material'
 import { Avatar, Popover } from '@mui/material'
 import { Link } from 'react-router-dom'
 import { PopoverContent } from '../PopoverContent'
-const CustomDialog = lazy(() => import('../CustomDialog'))
-const AddTaskModal = lazy(() => import('../TaskModal/AddTask'))
+import CustomDialog from '../CustomDialog'
+import AddTaskModal from '../TaskModal/AddTask'
 
 type UserTypes = {
   username: string
@@ -64,18 +64,14 @@ export default function Header({ user }: HeaderProps) {
             </div>
           </div>
         </div>
-        <Suspense fallback={<div>Carregando...</div>}>
-          <AddTaskModal handleClose={handleCloseNewTask} open={openNewTask} />
-        </Suspense>
-        <Suspense>
-          <CustomDialog
-            title={'Terminar Sessão'}
-            content={'Tem a certeza que pretende terminar esta sessão?'}
-            open={modalConfirmLogout}
-            onClose={() => setModalConfirmLogout(false)}
-            onConfirm={signOut}
-          />
-        </Suspense>
+        <AddTaskModal handleClose={handleCloseNewTask} open={openNewTask} />
+        <CustomDialog
+          title={'Terminar Sessão'}
+          content={'Tem a certeza que pretende terminar esta sessão?'}
+          open={modalConfirmLogout}
+          onClose={() => setModalConfirmLogout(false)}
+          onConfirm={signOut}
+        />
       </Wrapper>
       <Popover
         id={id}
