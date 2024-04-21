@@ -7,7 +7,11 @@ export function useAddTask() {
 
   return useMutation({
     mutationFn: async ({ title, description, isCompleted }: Task) => {
-      await API.post(`/tasks/`, { title, description, isCompleted })
+      await API.post(`/tasks/`, {
+        title,
+        description,
+        isCompleted: isCompleted === true ? 1 : 0,
+      })
     },
     onSuccess: () => {
       queryClient.invalidateQueries({

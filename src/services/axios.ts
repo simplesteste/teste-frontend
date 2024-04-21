@@ -6,13 +6,10 @@ export const API = axios.create({
   baseURL: BASE_URL,
 })
 
-// Adiciona um interceptor para todas as solicitações
 API.interceptors.request.use(
   (config) => {
-    // Verifica se o token de acesso está presente no localStorage
     const accessToken = localStorage.getItem('@App:token')
 
-    // Se o token de acesso estiver presente, adiciona-o ao cabeçalho Authorization
     if (accessToken) {
       config.headers.Authorization = `Bearer ${accessToken}`
     }

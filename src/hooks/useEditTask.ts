@@ -5,7 +5,7 @@ type Task = {
   taskId: string
   title?: string
   description?: string
-  isCompleted?: boolean
+  isCompleted?: boolean | number
 }
 
 export function useEditTask() {
@@ -13,7 +13,11 @@ export function useEditTask() {
 
   return useMutation({
     mutationFn: async ({ taskId, title, description, isCompleted }: Task) => {
-      await API.put(`/tasks/${taskId}`, { title, description, isCompleted })
+      await API.put(`/tasks/${taskId}`, {
+        title,
+        description,
+        isCompleted: isCompleted === true ? 1 : 0,
+      })
     },
     onSuccess: () => {
       queryClient.invalidateQueries({

@@ -11,7 +11,7 @@ import EditTaskModal from '../TaskModal/EditTask'
 
 type TaskComponentProps = {
   task: Task
-  toggleTaskStatus: (id: string, status: boolean) => void
+  toggleTaskStatus: (id: string, status: boolean | number) => void
 }
 
 export function TaskComponent({ task, toggleTaskStatus }: TaskComponentProps) {

@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState, useRef } from 'react'
 import { Task } from '../../types/tasks'
 import { Wrapper } from './style'
 
@@ -8,60 +8,27 @@ type FilterProps = {
 }
 
 export function Filter({ tasks, onFilterChange }: FilterProps) {
-  const [searchTerm, setSearchTerm] = useState('')
   const [filterType, setFilterType] = useState('')
+  const searchInputRef = useRef<HTMLInputElement>(null)
 
-  const filteredTasks = useMemo(() => {
-    let filtered = tasks
+  const handleSearchButtonClick = () => {
+    const searchTerm = searchInputRef.current?.value.toLowerCase() || ''
+    const filtered = tasks.filter(
+      (task) =>
+        task.title.toLowerCase().includes(searchTerm) ||
+        task.description.toLowerCase().includes(searchTerm),
+    )
 
-    // Filtrar por tipo (completas / a fazer)
-    if (filterType === 'completed') {
-      filtered = tasks.filter((task) => task.isCompleted)
-    } else if (filterType === 'pending') {
-      filtered = tasks.filter((task) => !task.isCompleted)
+    if (searchTerm === '' || filtered.length > 0) {
+      onFilterChange(filtered)
+    } else {
+      onFilterChange([])
     }
-
-    // Filtrar por termo de busca
-    if (searchTerm.trim() !== '') {
-      const lowerCaseSearchTerm = searchTerm.toLowerCase()
-      filtered = filtered.filter(
-        (task) =>
-          task.title.toLowerCase().includes(lowerCaseSearchTerm) ||
-          task.description.toLowerCase().includes(lowerCaseSearchTerm),
-      )
-    }
-
-    return filtered
-  }, [tasks, searchTerm, filterType])
-
-  const totalCompleted = useMemo(
-    () => tasks.filter((task) => task.isCompleted).length,
-    [tasks],
-  )
-  const totalPending = useMemo(
-    () => tasks.filter((task) => !task.isCompleted).length,
-    [tasks],
-  )
-  const totalTasks = tasks.length
-
-  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(event.target.value)
   }
 
   const handleFilterChange = (type: string) => {
     setFilterType(type)
   }
-
-  const handleSearchAPI = () => {
-    if (searchTerm.trim() !== '') {
-      alert(searchTerm.trim())
-    }
-  }
-
-  // Atualiza os totais quando ocorrem mudanças nos filtros
-  useMemo(() => {
-    onFilterChange(filteredTasks)
-  }, [filteredTasks, onFilterChange])
 
   return (
     <Wrapper>
@@ -70,30 +37,21 @@ export function Filter({ tasks, onFilterChange }: FilterProps) {
         <div>
           <button
             className={`${filterType === '' ? 'isActive' : ''}`}
-            onClick={() => {
-              setSearchTerm('')
-              handleFilterChange('')
-            }}
+            onClick={() => handleFilterChange('')}
           >
-            Tudo ({totalTasks})
+            Tudo ({tasks.length})
           </button>
           <button
             className={`${filterType === 'completed' ? 'isActive' : ''}`}
-            onClick={() => {
-              setSearchTerm('')
-              handleFilterChange('completed')
-            }}
+            onClick={() => handleFilterChange('completed')}
           >
-            Completas ({totalCompleted})
+            Completas ({tasks.filter((task) => task.isCompleted).length})
           </button>
           <button
             className={`${filterType === 'pending' ? 'isActive' : ''}`}
-            onClick={() => {
-              setSearchTerm('')
-              handleFilterChange('pending')
-            }}
+            onClick={() => handleFilterChange('pending')}
           >
-            A fazer ({totalPending})
+            A fazer ({tasks.filter((task) => !task.isCompleted).length})
           </button>
         </div>
       </div>
@@ -101,11 +59,10 @@ export function Filter({ tasks, onFilterChange }: FilterProps) {
         <h4>Buscar</h4>
         <input
           type="search"
+          ref={searchInputRef}
           placeholder="Buscar tarefa..."
-          value={searchTerm}
-          onChange={handleSearchChange}
         />
-        <button onClick={handleSearchAPI}>Buscar</button>
+        <button onClick={handleSearchButtonClick}>Buscar</button>
       </div>
     </Wrapper>
   )

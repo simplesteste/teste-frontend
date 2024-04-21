@@ -20,7 +20,7 @@ type EditTaskModalProps = {
   taskId: string
   initialTitle: string
   initialDescription: string
-  initialIsCompleted: boolean
+  initialIsCompleted: boolean | number
 }
 
 function EditTaskModal({
@@ -120,7 +120,7 @@ function EditTaskModal({
             <FormControlLabel
               control={
                 <Checkbox
-                  checked={isCompleted || false}
+                  checked={Boolean(isCompleted) || false}
                   onChange={handleChange}
                   name="isCompleted"
                 />

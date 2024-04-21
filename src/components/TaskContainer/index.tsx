@@ -8,7 +8,10 @@ type TaskComponentProps = {
 }
 export default function Tasks({ data }: TaskComponentProps) {
   const { mutate } = useEditTask()
-  const handleMarkAsCompleted = (taskId: string, isCompleted: boolean) => {
+  const handleMarkAsCompleted = (
+    taskId: string,
+    isCompleted: boolean | number,
+  ) => {
     mutate({
       taskId,
       isCompleted: !isCompleted,
