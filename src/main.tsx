@@ -8,6 +8,7 @@ import { queryClient } from './services/query.ts'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
 
 import './index.css'
+import { Toaster } from 'react-hot-toast'
 
 const theme = createTheme({
   typography: {
@@ -20,6 +21,7 @@ const theme = createTheme({
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
+    <Toaster />
     <ThemeProvider theme={theme}>
       <QueryClientProvider client={queryClient}>
         <AuthProvider>

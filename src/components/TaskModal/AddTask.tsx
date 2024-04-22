@@ -1,15 +1,8 @@
-import React, { useState } from 'react'
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { TaskSchema } from '../../schemas/task'
 import { Button } from '../Button'
-import {
-  DialogContent,
-  DialogTitle,
-  FormControlLabel,
-  TextField,
-  Checkbox,
-} from '@mui/material'
+import { DialogContent, DialogTitle, TextField } from '@mui/material'
 import { Box } from '@mui/system'
 import { useAddTask } from '../../hooks/useAddTask'
 import { Dialog, DialogActions } from './style'
@@ -20,7 +13,6 @@ type AddTaskModalProps = {
 }
 
 function AddTaskModal({ open, handleClose }: AddTaskModalProps) {
-  const [isCompleted, setIsCompleted] = useState(false)
   const {
     register,
     handleSubmit,
@@ -35,14 +27,9 @@ function AddTaskModal({ open, handleClose }: AddTaskModalProps) {
     mutate({
       title: data.title,
       description: data.description,
-      isCompleted,
     })
     handleClose()
     reset()
-  }
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setIsCompleted(event.target.checked)
   }
 
   const handleCancel = () => {
@@ -85,21 +72,6 @@ function AddTaskModal({ open, handleClose }: AddTaskModalProps) {
               {...register('description')}
               error={!!errors.description}
               helperText={errors.description ? 'Informe uma descrição.' : ''}
-            />
-          </Box>
-          <Box
-            width={'100%'}
-            sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}
-          >
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={isCompleted || false}
-                  onChange={handleChange}
-                  name="isCompleted"
-                />
-              }
-              label="Marcar tarefa como terminada"
             />
           </Box>
 

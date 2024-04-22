@@ -28,7 +28,7 @@ export default function Tasks({ data = [] }: TaskComponentProps) {
           task={task}
           toggleTaskStatus={() =>
             task.id !== undefined &&
-            handleMarkAsCompleted(task.id, task.isCompleted)
+            handleMarkAsCompleted(task.id, task.isCompleted!)
           }
         />
       ))}
