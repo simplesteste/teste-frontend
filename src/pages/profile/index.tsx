@@ -30,7 +30,7 @@ export default function Profile() {
       <Header user={{ email: user.email, username: user.username }} />
       <Wrapper>
         <Filter tasks={allTasks || []} onFilterChange={handleFilterChange} />
-        <Tasks data={filteredTasks.length > 0 ? filteredTasks : allTasks} />
+        <Tasks data={filteredTasks || allTasks} />
       </Wrapper>
     </>
   )

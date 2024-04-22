@@ -1,7 +1,8 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { API } from '../services/axios'
+import toast from 'react-hot-toast'
 
-export function useUpdateTask() {
+export function useDeleteTask() {
   const queryClient = useQueryClient()
 
   return useMutation({
@@ -12,6 +13,9 @@ export function useUpdateTask() {
       queryClient.invalidateQueries({
         queryKey: ['tasks'],
       })
+      toast.success('Tarefa apagada sucesso!')
     },
+    onError: (error) =>
+      error && toast.error('Houver algum erro ao apagar a tarefa!'),
   })
 }

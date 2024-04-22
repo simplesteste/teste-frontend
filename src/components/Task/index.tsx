@@ -3,11 +3,11 @@ import { Popover, Button } from '@mui/material'
 import dayjs from 'dayjs'
 import { Task } from '../../types/tasks'
 import { Wrapper } from './style'
-import { useDeleteTask } from '../../hooks/useUpdateTask'
 import { PopoverContent } from '../PopoverContent'
 import { Check, Delete, EditNote, MoreHoriz } from '@mui/icons-material'
 import CustomDialog from '../../components/CustomDialog'
 import EditTaskModal from '../TaskModal/EditTask'
+import { useDeleteTask } from '../../hooks/useDeleteTask'
 
 type TaskComponentProps = {
   task: Task
@@ -49,7 +49,7 @@ export function TaskComponent({ task, toggleTaskStatus }: TaskComponentProps) {
   }
 
   const handleToggleTaskStatus = () => {
-    toggleTaskStatus(taskId!, isCompleted)
+    toggleTaskStatus(taskId!, isCompleted!)
     handleCloseMenu()
     setIsFinishDialogOpen(false)
   }
@@ -131,7 +131,7 @@ export function TaskComponent({ task, toggleTaskStatus }: TaskComponentProps) {
       />
       <EditTaskModal
         handleClose={handleCancelUpdateTask}
-        initialIsCompleted={task.isCompleted}
+        initialIsCompleted={task.isCompleted!}
         open={isOpenDialog}
         taskId={task.id!}
         initialTitle={task.title}
