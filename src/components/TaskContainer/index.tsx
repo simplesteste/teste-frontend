@@ -6,7 +6,7 @@ import { Wrapper } from './style'
 type TaskComponentProps = {
   data: Task[]
 }
-export default function Tasks({ data }: TaskComponentProps) {
+export default function Tasks({ data = [] }: TaskComponentProps) {
   const { mutate } = useEditTask()
   const handleMarkAsCompleted = (
     taskId: string,
